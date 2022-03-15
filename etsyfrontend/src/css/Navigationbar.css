@@ -1,0 +1,60 @@
+.header_logo{
+    width :100px;
+    margin-left : 40px;
+    margin-right : 40px;
+    margin-top : 18px;
+    object-fit:contain;
+    height : 80px;
+
+}
+.header-search{
+    display :flex;
+    size: 30px;
+    
+
+}
+.header_searchinput{
+    height : 40px;
+    padding : 10px;
+    border-color : rgb(7, 0, 0);
+    border-radius: 25px;
+    
+    font-size: 13 pt;
+    width : 800px;
+    
+}
+.header_searchicon{
+    size:30px;
+    color:black
+}
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    position:sticky;
+    top : 0;
+    z-index: 100;
+
+}
+.signinbutton{
+    
+    font-family: sans-serif;
+    font-size: 20px;
+    background-color: white;
+    border : none;
+}
+.signinbutton:hover{
+    background-color: gray;
+    border-radius: 45px;
+}
+.shopping_icon{
+    size:5cm;
+    display: flex;
+    padding-left: 20px;
+}
+.header_cartnumber{
+  padding: 5px;
+}
+.fav_icon{
+    color: black;
+}

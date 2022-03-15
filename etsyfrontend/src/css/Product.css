@@ -1,0 +1,20 @@
+.product{
+    display: flex;
+    flex-direction: column;
+    max-height: 400px;
+    min-width :100px;
+    z-index: 1;
+    align-items: center;
+    justify-content: flex-end;
+
+}
+.product_rating{
+    display: flex;
+}
+.product_image{
+    max-height:200px;
+    width:100%;
+    object-fit:contain;
+    margin-bottom: 15px;
+    z-index: -1;
+}
