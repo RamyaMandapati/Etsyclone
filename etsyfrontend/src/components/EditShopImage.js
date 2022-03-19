@@ -7,11 +7,13 @@ import Axios from "axios";
 import { Col, Card, Row } from "antd";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import userSlice, { selectUser } from "../features/userSlice";
+import userSlice, { login, selectUser,updateshopImage } from "../features/userSlice";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 function EditShopImage() {
     const navigate=useNavigate();
+    const dispatch=useDispatch();
     const user = useSelector(selectUser);
     const [shopProfileImage,setShopProfileImage]=useState("")
   const user_id=user.id;
@@ -26,9 +28,13 @@ function EditShopImage() {
         headers: { "content-Type": "multipart/form-data" },
       })
     .then(response=>{
+        console.log(response);
         if(response.data.success)
         {
             console.log("Image update successfully");
+            dispatch(updateshopImage({shopImage:response.data.shopimage})
+              
+            );
             navigate("/ShopHome")
             
         }

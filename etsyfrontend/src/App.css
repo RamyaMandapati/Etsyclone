@@ -568,3 +568,34 @@
   top: 5%;
   display: inline-block;
 }
+.btn-success {
+  color: #fff;
+    background-color: hsl(18, 85%, 55%);
+    border-color: #f8f9fa;
+}
+.form{
+  text-align: center;
+margin:50px;
+margin-left:350px;
+border: 1px solid;
+border-radius: 25px;
+box-shadow: 5px 5px 5px #888888;
+height: fit-content;
+width:700px;
+align-self: center;
+
+}
+.section{
+  margin:10px;
+  display:flex;
+}
+.name{
+  margin-right:50px;
+  margin:10px
+}
+.fav_icons:hover {
+  color: #ff0000;
+  
+}
+
+  

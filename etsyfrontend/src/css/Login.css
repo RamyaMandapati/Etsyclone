@@ -11,7 +11,7 @@
 .login_container{
     border : 1px solid black;
     border-radius: 35px;
-    height: 400px;
+    height: 500px;
     width : 400px;
     padding : 5px;
     align-items: center;
@@ -62,7 +62,7 @@
     padding-top: 10px;
     padding-bottom: 10px;
     color: white;
-    padding-left: 10px;
+    margin-left: 10px;
 
 }
 .or{
@@ -75,9 +75,11 @@
     border-radius: 35px;
     width: 100px;
     padding-top: 10px;
-    padding-bottom: 10px;
+    margin-bottom: 20px;
     color: white;
-    padding-left: 10px;
+    margin-left: 10px;
+    padding-bottom: 10px;
+    
 }
 .name_label{
     font-size: 15px;

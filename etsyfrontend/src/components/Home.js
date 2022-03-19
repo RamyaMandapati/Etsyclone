@@ -2,19 +2,22 @@ import React, {useEffect, useState} from "react";
 import Logo from "../Images/etsylogo.png"
 import "../css/Home.css";
 import Product from "./Product";
-
+import FavoriteTwoToneIcon  from '@material-ui/icons//FavoriteBorderOutlined';
 import Navigationbar from "./Navigationbar";
 import Axios  from 'axios';
-import { Col, Card, Row} from 'antd'
+import { Col, Card, Row} from 'antd';
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
 const {Meta}=Card
 
 
 
 function Home(){
-   
+   const user=useSelector(selectUser)
     const [Products, setProducts]=useState([])
     const [Skip, setSkip] = useState(0)
-    const [Limit, setLimit] = useState(8)
+    const [Limit, setLimit] = useState(9)
     const [PostSize, setPostSize] = useState()
     const [SearchTerms, setSearchTerms] = useState("")
 
@@ -42,16 +45,49 @@ function Home(){
         }
       })
     }
+
+    const handlefavclick=(productid,userid)=>{
+      console.log(user.id)
+      Axios.post(`http://localhost:5000/addFav/${productid}/${userid}`)
+      .then((response)=>{
+        if(response.data.success){
+        console.log(response.data.success)
+        }
+        else{
+          console.log("error")
+        }
+
+      }).catch((err)=>{
+        console.log(err);
+      })
+      
+  }
    
     const renderCards = Products.map((product, index) => {
       
       return (<div className="col-md-4 mb-4">
-                <div className="card">
-                  <img
+                <div className="card" style={{marginTop:"20px"}}>
+                  <Link to={`/ItemOverview/${product.productid}`}><img style={{height:"200px",width:"200px"}}
                     src={require("../uploads/" + product.image)}
-                    className="card-img-top"
+                    className="card-img-top-center"
                     alt="..."
-                  />
+                  /></Link>
+                 <div
+            style={{
+              backgroundColor: "white",
+              borderRadius: "50%",
+              padding: "5px",
+            }}
+            className="favourite_icon"
+            onClick={() => {
+              handlefavclick(product.productid, user.id);
+            }}
+          >
+            {/* {toggleFavourites} */}
+            <FavoriteTwoToneIcon />
+            {/* {favourites.itemId === products.itemId &&
+              favourites.userId === user.id} */}
+          </div>
                 <div className="card-body">
                   <h5 className="card-title">{product.productname}</h5>
                     <p>Price: ${product.price}</p>
@@ -91,7 +127,8 @@ function Home(){
     return (
       <div>
         <Navigationbar/>
-      <div style={{ width: '75%', margin: '3rem auto' }}>
+         <h1 style={{display: 'flex', height: '100px', justifyContent: 'center', alignItems: 'center',color:"hsl(18, 85%, 55%)"}}>Welcome back {user.name}</h1>
+            <div style={{ width: '75%', margin: '1rem auto', backgroundColor:"rgb(243, 234, 223)" }}>
             
                 
             

@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import {useNavigate} from 'react-router';
 import { useDispatch } from "react-redux";
 import { logout } from '../features/userSlice';
+import { removecartProductsState } from '../features/cartItemsSlice';
 import Axios from 'axios';
 import Login from './Login';
 import "../App.css"
@@ -22,6 +23,7 @@ import {
   getProducts,
   productsList,
   updateProducts,
+ 
 } from "../features/productSlice";
 
 import { updateUser } from "../features/userSlice";
@@ -29,7 +31,7 @@ function Navigationbar() {
   let navigate=useNavigate();
   const dispatch=useDispatch();
   const prod=useSelector(getProducts);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [SearchTerms,setSearchTerms] = useState("");
 
   const handleSearch=(e) =>{
@@ -67,6 +69,8 @@ function Navigationbar() {
     e.preventDefault();
     
     dispatch(logout());
+    //dispatch(logoutproduct());
+    dispatch(removecartProductsState());
     navigate('/Login')
   }
   
@@ -122,8 +126,8 @@ function Navigationbar() {
               'aria-labelledby': 'basic-button',
             }}
             >
-              <MenuItem onClick="/Profile">Profile</MenuItem>
-              <MenuItem onClick="/Orders">Orders</MenuItem>
+              <Link to="/Profile"><MenuItem onClick="/Profile">Profile</MenuItem></Link>
+              <Link to="/Orders"><MenuItem >Orders</MenuItem></Link>
               <Link to="/SellOnEtsy">
               <MenuItem >Sell on Etsy </MenuItem></Link>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -132,8 +136,8 @@ function Navigationbar() {
           </div>
 
             
-            <Link to="/cart">
-              <ShoppingCartIcon className="shopping_icon"></ShoppingCartIcon>
+            <Link to="/Carts">
+              <ShoppingCartIcon style={{color:"black"}} className='cart-icon'></ShoppingCartIcon>
               
             </Link>
 

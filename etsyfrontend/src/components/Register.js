@@ -4,8 +4,10 @@ import "../css/Login.css";
 import { BrowserRouter as Router, Link, Route, Routes} from "react-router-dom";
 import { useStateValue } from '../StateProvider';
 import {connect} from "react-redux"
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
+    const navigate=useNavigate();
     const[usernameReg, setUsernameReg] = useState(' ');
     const[passwordReg, setPasswordReg] = useState(' ');
     const[emailidReg, setEmailidReg] = useState(' ');
@@ -17,6 +19,7 @@ function Register() {
             username:usernameReg,password:passwordReg,emailid:emailidReg
         }).then((response)=>{
             console.log(response);
+            navigate("/Login")
 
         })
         .catch((error)=>{

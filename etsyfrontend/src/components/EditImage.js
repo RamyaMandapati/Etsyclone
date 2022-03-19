@@ -5,10 +5,11 @@ import "../App.css"
 import {Link, Navigate, useParams} from 'react-router-dom'
 import {useNavigate} from 'react-router'
 import { padding } from '@mui/system';
+import { useDispatch } from "react-redux";
 
 
 function EditImage() {
-  
+    const dispatch=useDispatch();
     let navigate=useNavigate();
     const [itemImage, setItemImage] = useState("");
     const {id}=useParams();
@@ -22,6 +23,7 @@ function EditImage() {
             headers: { "content-Type": "multipart/form-data" },
           })
         .then(response=>{
+          console.log(response);
             if(response.data.success)
             {
                 console.log("Image update successfully");

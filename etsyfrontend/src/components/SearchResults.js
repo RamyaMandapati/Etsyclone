@@ -10,6 +10,7 @@ import {
   import Navigationbar from "./Navigationbar";
   import { useSelector, useDispatch } from "react-redux";
   import { useState } from 'react';
+import { borderRight } from '@mui/system';
 
 function SearchResults() {
   
@@ -55,7 +56,7 @@ if(checked==false){
     searchPage = product.map((pro) => {
         
       return (
-        <div className="col-md-4 mb-4">
+        <div className="col-md-4 mb-4" style={{marginTop:"20px"}}>
           <div className="card">
             <img
               src={require("../uploads/" + pro.image)}
@@ -66,7 +67,7 @@ if(checked==false){
               <h5 className="card-title">{pro.productname}</h5>
               <p>Price: ${pro.price}</p>
               {/* <p>{pro.itemCount}</p> */}
-              <p className="card-text">{pro.description}</p>
+              
             </div>
           </div>
         </div>
@@ -87,8 +88,8 @@ if(checked==false){
         searchPage = product.map((pro) => {
         if(pro.count>0){ 
           return (
-            <div className="col-md-4 mb-4">
-              <div className="card">
+            <div className="col-md-4 mb-4" style={{marginTop:"20px"}}>
+              <div className="card" >
                 <img
                   src={require("../uploads/" + pro.image)}
                   className="card-img-top"
@@ -98,7 +99,7 @@ if(checked==false){
                   <h5 className="card-title">{pro.productname}</h5>
                   <p>Price: ${pro.price}</p>
                   {/* <p>{pro.itemCount}</p> */}
-                  <p className="card-text">{pro.description}</p>
+                  
                 </div>
               </div>
             </div>
@@ -134,15 +135,15 @@ if(checked==false){
           left: "78%",
         }}
       >
-        <div class="card-body">
+        <div className="card-body" style={{marginTop:"20px"}}>
           <form id="price-range-form">
-            <label for="min-price" class="form-label">
+            <label htmlFor="min-price" className="form-label">
               Min price:
             </label>
             <span id="min-price-txt">${minPrice}</span>
             <input
               type="range"
-              class="form-range"
+              className="form-range"
               min="0"
               max="99"
               id="min-price"
@@ -152,13 +153,13 @@ if(checked==false){
                 setMinPrice(event.target.value);
               }}
             />
-            <label for="max-price" class="form-label">
+            <label htmlFor="max-price" className="form-label">
               Max price:
             </label>
             <span id="max-price-txt">${maxPrice}</span>
             <input
               type="range"
-              class="form-range"
+              className="form-range"
               min="1"
               max="100"
               id="max-price"
@@ -179,9 +180,10 @@ if(checked==false){
         id="count"
         name="count"
         value="count"
+        style={{marginLeft:"20px",marginRight:"10px"}}
         onChange={(e)=>setChecked(e.target.checked)}
       />
-      <label for="count">Out of stock</label>
+      <label htmlor="count">Out of stock</label>
       <br></br>
 
       <div style={{ marginLeft: "80%" }}>
@@ -206,7 +208,7 @@ if(checked==false){
       </div>
 
       <div className="container-fluid mx-1">
-        <div className="row mt-5 mx-1">
+        <div className="row mt-5 mx-1" style={{marginTop:"20px",backgroundColor:"rgb(243, 234, 223)"}}>
           <div className="col-md-15">
             <div className="row">{searchPage}</div>
           </div>

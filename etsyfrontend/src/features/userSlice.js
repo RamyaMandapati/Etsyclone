@@ -14,23 +14,29 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.shop = null;
+      state.shopName=null;
+     
     },
 
     updateUser: (state, action) => {
       state.user.shopName = action.payload.shopName;
     },
+    updateshopImage:(state,action)=>{
+      state.user.shopImage=action.payload.shopImage;
+    },
     activeShop: (state, action) => {
       state.shop = action.payload.shopName;
     },
     favorites:(state,action) => {
-      
+    
     }
   },
 });
 
-export const { login, logout, activeShop, updateUser, favorites } = userSlice.actions;
+export const { login, logout, activeShop, updateUser, updateshopImage,favorites } = userSlice.actions;
 
 export const selectUser = (state) => state.user.user;
 export const selectShop = (state) => state.user.shop;
+
 
 export default userSlice.reducer;

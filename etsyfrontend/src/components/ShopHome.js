@@ -11,13 +11,17 @@ import { useSelector } from "react-redux";
 import {useNavigate} from 'react-router';
 import Navigationbar from "./Navigationbar";
 
+
+
 import userSlice, { selectUser, selectShop } from "../features/userSlice";
+import { orange } from "@material-ui/core/colors";
 function ShopHome() {
 
   const navigate=useNavigate();
   const user = useSelector(selectUser);
   const shop= useSelector(selectShop);
   const user_id=user.id;
+
   const [products, setProducts] = useState([]);
   const [showProds, setShowProds] = useState(false);
   const [Skip, setSkip] = useState(0);
@@ -25,7 +29,7 @@ function ShopHome() {
   const [showProductsAddPage, setShowProductsAddPage] = useState(false);
   const [editProductPage, setEditProductPage] = useState(false);
   const [postSize, setPostSize] = useState();
-  const [shopimage,setShopImage]=useState("");
+  const [shopimage,setShopImage]=useState([]);
 
   const addItems = () => {
     setShowProductsAddPage(true);
@@ -37,24 +41,31 @@ function ShopHome() {
       limit: limit,
     };
     viewItems(variables);
-    Axios.get(`http://localhost:5000/updateshopImage/${user_id}`)
+    updateShopImage();
+
+  },[]);
+  const updateShopImage=()=>{
+  Axios.get(`http://localhost:5000/updateshopImage/${user_id}`)
     .then((res)=>{
       if(res.data.success){
         console.log(res);
-        if(res.data.result[0].shopImage){
+        if(res.data.result[0].shopImage!=null){
           
-          setShopImage(res.data.result[0].shopImage);
-          console.log("shopimage  "+shopimage)
+          setShopImage([...shopimage,...res.data.result]);
+          
+          //setShopImage("../uploads/"+shopimage)
+          console.log(shopimage[0].shopImage)
           
         }
         else{
-          setShopImage(profilepicture);
+          setShopImage("profilepicture.png");
         }
       }else{
         console.log("image retrieve failed");
       }
     })
-  }, []);
+  }
+  
 
   const onLoadMore = () => {
 
@@ -74,14 +85,14 @@ function ShopHome() {
     console.log("---------------in view Items-------------------");
     console.log(variables.skip + " in get all products");
     Axios.post(
-      "http://localhost:5000/getAllProducts" ,
+      `http://localhost:5000/getAllProducts/${user_id}` ,
       variables
     ).then((response) => {
       console.log(response);
       if (response.data.success) {
         if (variables.loadMore) {
           setProducts([...products, ...response.data.result]);
-          console.log(products);
+          console.log("Products"+products);
         } else {
           setProducts(response.data.result);
         }
@@ -98,15 +109,15 @@ function ShopHome() {
   const renderCards = products.map((product) => {
     return (
       <div className="col-md-4 mb-4">
-        <div className="card">
+        <div className="card" style={{height:"300px",width:"300px"}}>
           
              
-              <img style={{width:"200px",height:"200px"}} src={require("../uploads/"+product.image)} alt="" />
+              <img style={{width:"200px",height:"158px"}} src={require("../uploads/"+product.image)} alt="" />
               <div className="card-body">
-                <h5 className="card-title">{product.name}</h5>
+                <h5 className="card-title">{product.productname}</h5>
                 <p>Price: ${product.price}</p>
-                <Link to={`EditProduct/${product.productid}`} className="btn btn-success btn-sm">edit product</Link>
-                <Link to={`EditImage/${product.productid}`} className="btn btn-success btn-sm">edit image</Link>
+                <Link to={`EditProduct/${product.productid}`} className="btn btn-success btn-sm" style={{borderRadius:"10px"}}>edit product</Link>
+                <Link to={`EditImage/${product.productid}`} className="btn btn-success btn-sm" style={{borderRadius:"10px"}}>edit image</Link>
             </div>
           </div>
         </div>
@@ -125,15 +136,16 @@ function ShopHome() {
       <hr></hr>
       <div className="shophome_header">
         <div className="shop_details">
+          
           <img
             className="shop_img"
-            src={profilepicture} 
+             src={require("../uploads/"+user.shopImage)} alt={profilepicture}
           ></img>
           <div className="shop_info">
-            <h3 className="shop_name">{user.shopName}</h3>
+            <h3 className="shop_name">{shop}</h3>
             <p>0 sales </p>
             <div className="htmlForm-group">
-            <Link to={`EditShopImage/${user_id}`} className="btn btn-success btn-sm">edit shop image</Link>
+            <Link to={`EditShopImage/${user_id}`} className="btn btn-success btn-sm" style={{borderRadius:"10px"}}>edit shop image</Link>
             
             
             </div>
@@ -143,29 +155,30 @@ function ShopHome() {
           <h6 style={{ fontSize: "18px" }}>SHOP OWNER</h6>
           <img
             style={{ width: "30%", borderRadius: "50%", height: "100px" }}
-            //src={require("../uploads/"+shopimage[0].shopImage)}
+            src={require("../uploads/"+user.profilepicture)}
           ></img>
           
           <h5>{user.name}</h5>
         </div>
       </div>
-      <div className="shop_items">
+      <div className="shop_items" style={{backgroundColor:"rgb(243, 234, 223)"}}>
         <div>
           <button
             style={{
               marginLeft: "7.5%",
               padding: "10px",
               width: "25%",
-              backgroundColor: "gray",
+              backgroundColor: "hsl(18, 85%, 55%)",
               border: "none",
               color: "white",
+              borderRadius:"20px"
             }}
             onClick={addItems}
           >
-            Add More Items..!
+            Add Item
           </button>
         </div>
-        <div>
+        <div style={{backgroundColor:"rgb(243, 234, 223)"}}>
           <div style={{ width: "75%", margin: "3rem auto" }}>
             <div style={{ textAlign: "center" }}></div>
             <div

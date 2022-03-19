@@ -1,37 +1,164 @@
-import React,{Component, useState} from 'react'
-import "../css/ItemOverview.css";
-import Product from "./Product";
-import {Row,Col} from "react-bootstrap";
-import { useStateValue } from '../StateProvider';
-import { render } from 'react-dom';
-import { BrowserRouter as Router, Link, Route, Routes} from "react-router-dom";
-import StarRatings from 'react-star-ratings';
-function ItemOverview({id,name,price,ratings,image}){
-    const [{},dispatch] = useStateValue();
-    const addToCart=()=>{
-        dispatchEvent({
-            type: 'ADD_TO_CART',
-            item:{
-                id : id,
-                name:name,
-                image:image,
-                price:price,
-                ratings:ratings,
-            },
+import React, {useLayoutEffect, useState} from "react";
+import { Link, useParams } from 'react-router-dom';
+import FavoriteTwoToneIcon  from '@material-ui/icons//FavoriteBorderOutlined';
+import Navigationbar from './Navigationbar';
+import Favorites from "./Favorites";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { selectUser} from '../features/userSlice';
+import "../App.css";
+import { useDispatch } from "react-redux";
+import { createCartItem } from "../features/cartItemsSlice";
+import { getCartItems } from "../features/cartItemsSlice";
+// import {
+//   addProductToCart,
+//   addQtyToCart,
+//   getAllCartProducts,
+//   getFinalCartProducts,
+// } from "../features/cartSlice";
+//import { updatecartProducts } from "../features/cartSlice";
 
-        });
-    }
+
+import Axios from 'axios';
+
+function ItemOverview(props) {
+    const user=useSelector(selectUser);
+    //const productView = useSelector(getAllCartProducts);
+    const dispatch=useDispatch() 
+    const userid=user.id;
+    console.log(userid);
+    const navigate=useNavigate();
+    const {id}=useParams();
+    const productid=Number(id);
+    const [Products, setProducts]=useState("");
+    const [quantity,setQuantity]=useState(1);
     
-    return(
+    useLayoutEffect(()=>{
+        Axios.get(`http://localhost:5000/getProducts/${productid}`)
+      .then((response) =>{
+        console.log(response);
+        if(response.data.success){
+         
+            setProducts(response.data.result[0]);
+            
+        } 
+        
+          
+        else{
+          alert("failed to fetch products")
+        }
+    })
+    },[])
+    const handlefavclick=()=>{
+        Axios.post(`http://localhost:5000/addFav/${productid}/${userid}`)
+        .then((response)=>{
+          if(response.data.success){
+          console.log(response.data.success)
+          }
+          else{
+            console.log("error")
+          }
 
-       
-        <div>
-            <Product/>
-          <button type="submit" className='addtocart_button' onClick={addToCart}> Add to cart </button>
-        </div>
-     
-    );
+        }).catch((err)=>{
+          console.log(err);
+        })
+        
     }
+    const addToCartHandler = () => {
+      console.log("add to cart handler");
+  
+      // cartItems.map((ele) => console.log(ele));
+      // if (cartItems) {
+      dispatch(
+        createCartItem({
+          itemId: Products.productid,
+          itemName: Products.productname,
+          itemDescription: Products.description,
+          itemImage: Products.image,
+          itemPrice: Products.price,
+          itemCount: Products.count,
+          
+          qty: Number(quantity),
+          subtotal:Number(Products.price)*Number(quantity)
+        })
+      );
+      }
+  
+      // if (cartItems) {
+      //   console.log(cartItems.qty);
+      //   console.log(qty);
+      // } else {
+      //   console.log("No cart items");
+      // }
+      // console.log(productView.length);
+      // if (user !== null) {
+      //   Axios.post("http://localhost:4000/addProductToCart/" + user.id, {
+      // itemId: cartProduct.itemId,
+      // itemName: cartProduct.itemName,
+      // itemDescription: cartProduct.itemDescription,
+      // itemImage: cartProduct.itemImage,
+      // itemPrice: cartProduct.itemPrice,
+      // itemId: cartProduct.itemId,
+      // qty: qty,
+      //   }).then((response) => {
+      //     if (response.data.success === true) {
+      //       console.log("-------------responce data ------", response.data);
+      //     }
+      //   });
+      //   console.log("Add to cart clicked");
+      // }
+  
+    
+            
+     
+  return (
+    <div>
+        <Navigationbar/>
+        <hr></hr>
+        {Products.length === 0 ? (
+              <div
+                style={{
+                  display: "flex",
+                  height: "300px",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <h2>Loading..</h2>
+              </div>
+            ) : (
+             
+              <div style={{height:"500px", width:"500px",borderRadius:"20px",margin:"40px",display:"row"}}>
+                <img style={{width:"400px",height:"400px",marginLeft:"100px"}}  src={require("../uploads/"+Products.image)} alt="" />
+                
+                <span  className="fav_icons">
+                <FavoriteTwoToneIcon  onClick={handlefavclick} style={{marginLeft:"20px"}}></FavoriteTwoToneIcon>
+                </span>
+                
+                  <div style={{marginLeft:"50px",height:"400px",width:"400px",border:"1px"}}>
+                    <Link to="/ShopHomecustomer"><label style={{color:"rgb(235 78 11)", marginLeft:"50px"}}>{Products.shopname}</label></Link>
+                    <br></br>
+                    <span style={{marginLeft:"50px"}}>sales</span>
+                    <h2 style={{marginLeft:"50px",width:"200px",marginTop:"50px"}}>{Products.description}</h2>
+                    <h3 style={{marginLeft:"50px"}}>${Products.price}</h3>
+                    <p style={{marginLeft:"50px"}}>quantity</p>
+                    <select style={{marginLeft:"50px"}} onChange={(e)=>setQuantity(e.target.value)}>
+                    { /*Array.from(Array(Products.count)).map((e,value) => <option key={value} value={value}>{value+1}</option>) */}
+                    {Array.apply(null, {length: Products.count}).map((e,value) => <option key={value} value={value}>{value}</option>)}
+                    </select><br></br>  
+                    <button style={{width:"200px",borderRadius:"10px",marginLeft:"50px",marginTop:"10px",color:"white",backgroundColor:"black"}} onClick={addToCartHandler}>Add to cart</button>
+                  </div>
+                    
 
+              </div>
+             
+            )}
+          
+       
+       
+      
+    </div>
+  )
+}
 
 export default ItemOverview

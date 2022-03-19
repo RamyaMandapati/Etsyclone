@@ -19,6 +19,12 @@ import { Nav, Tab, Col, Row } from 'react-bootstrap';
 import { useSelector } from "react-redux";
 import SearchResults from "./components/SearchResults"
 import userSlice, { selectUser } from "./features/userSlice";
+import ShopName from "./components/ShopName";
+import Profile from "./components/Profile";
+import Favorites from "./components/Favorites";
+import Carts from "./components/Carts";
+import Orders from "./components/Orders";
+
 function App() {
   
  
@@ -35,7 +41,7 @@ function App() {
              <Route path="/" element={<Login/>}/>
              <Route path="/Login" element={<Login/>}/>
              <Route path="/Home" element={<Home/>}/>
-             <Route path="/ItemOverview" element={<ItemOverview/>}/>
+             <Route path="/ItemOverview/:id" element={<ItemOverview/>}/>
              <Route path="/ShopHome" element={<ShopHome/>}/>
              <Route path="/Register" element={<Register/>}/>
              <Route path="/SellOnEtsy" element={<SellOnEtsy/>}/>
@@ -43,6 +49,11 @@ function App() {
              <Route path="/ShopHome/EditImage/:id" element={<EditImage/>}/>
              <Route path="/ShopHome/EditShopImage/:id" element={<EditShopImage/>}/>
              <Route path="/SearchResults" element={<SearchResults/>}/>
+             <Route path="/ShopName" element={<ShopName/>}/>
+             <Route path="/Profile" element={<Profile/>}/>
+             <Route path="/Favorites" element={<Favorites/>}/>
+             <Route path="/Carts" element={<Carts/>}/>
+             <Route path="/Orders" element={<Orders/>}/>
            </Routes>  
         </div>
     </Router>

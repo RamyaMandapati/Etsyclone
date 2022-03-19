@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useState } from "react";
-
-
+import userSlice, { selectUser, selectShop } from "../features/userSlice";
+import { useSelector } from "react-redux";
 function Popup({ setShowProductsAddPage }) {
   
   const [itemName, setItemName] = useState("");
@@ -10,9 +10,11 @@ function Popup({ setShowProductsAddPage }) {
   const [itemDescription, setItemDescription] = useState("");
   const [itemCategory, setItemCategory] = useState("");
   const [itemCount, setItemCount] = useState(0);
-
+  const shop= useSelector(selectShop);
+  const user=useSelector(selectUser);
+  console.log(shop);
   const addItem = async () => {
-    // e.preventDefault();
+   
     const formData = new FormData();
     formData.append("itemImage", itemImage);
     formData.append("itemName", itemName);
@@ -20,6 +22,7 @@ function Popup({ setShowProductsAddPage }) {
     formData.append("itemPrice", itemPrice);
     formData.append("itemCount", itemCount);
     formData.append("itemCategory", itemCategory);
+    formData.append("id",user.id);
     // const itemDetails = {
     //   itemName: itemName,
     //   itemDescription: itemDescription,
@@ -28,7 +31,7 @@ function Popup({ setShowProductsAddPage }) {
     // };
 
     console.log("Item image"+itemImage);
-    Axios.post("http://localhost:5000/addProductShop" , formData, {
+    Axios.post(`http://localhost:5000/addProductShop/${shop}` , formData, {
       headers: { "content-Type": "multipart/form-data" },
     }).then((response) => {
       console.warn(response);
@@ -45,6 +48,7 @@ function Popup({ setShowProductsAddPage }) {
       <div className="modal-content">
         
         <h2 className="addProd_title">Add product</h2>
+        
         <form
           className="items_form "
           method="post"
@@ -85,6 +89,11 @@ function Popup({ setShowProductsAddPage }) {
               <option value="homeDecor">Home Decor</option>
               <option value="others">Others</option>
             </select>
+
+          </div>
+          
+          <div>
+            <input onChange={(event)=>{setItemCategory(event.target.value)}}>Add a new category</input>
           </div>
 
           <div className="htmlForm-group">

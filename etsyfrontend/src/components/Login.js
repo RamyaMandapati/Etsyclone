@@ -24,7 +24,7 @@ function Login() {
         }).then((response)=>{
             
             
-            
+            console.log(response);
             if(response.data.message){
                 setLoginStatus(response.data.message)
                 navigate('/Login')
@@ -35,7 +35,12 @@ function Login() {
                       email: response.data.result[0].emailid,
                       name: response.data.result[0].name,
                       shopName: response.data.result[0].shopname,
-                      
+                       gender: response.data.result[0].gender,
+                       country: response.data.result[0].country,
+                       dob:response.data.result[0].dob,
+                       about:response.data.result[0].about,
+                        shopImage:response.data.result[0].shopImage,
+                        profilepicture:response.data.result[0].profileimage,
                       loggedIn: true,
                     })
                   );

@@ -15,6 +15,11 @@ export const productSlice = createSlice({
     updateProducts: (state, action) => {
       state.products = action.payload;
     },
+    
+    logoutproduct: (state) => {
+        
+        state.products=null;
+      },
   },
 });
 
@@ -22,6 +27,7 @@ export const {
   productsList,
   removeProductsState,
   updateProducts,
+  logoutproduct,
 } = productSlice.actions;
 
 export const getProducts = (state) => state.product.products;

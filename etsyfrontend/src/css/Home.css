@@ -1,6 +1,6 @@
 .card{
     height: 300px;
-    width : 300px;
+    width : 200px;
     display: flex;
     border:0.5cm;
     border-color: black;
@@ -19,3 +19,8 @@
     width: 200px;
     height:200px;
 }
+.favourite_icon:hover {
+    cursor: pointer;
+    color: rgb(255, 147, 147);
+    background-color: rgb(255, 0, 0);
+  }

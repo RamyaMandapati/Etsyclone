@@ -216,10 +216,10 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
         }
     })
  })
- app.post('/addShop',(req,res) =>{
+ app.post('/addShop/:id',(req,res) =>{
     let shop_name=req.body.shopname
-    let emailid="ramya"
-    dbConnection.query("UPDATE login SET shopname= ? where emailid=?",[shop_name,emailid],
+    let userid=req.params.id
+    dbConnection.query("UPDATE login SET shopname= ? where id=?",[shop_name,userid],
     (err,result) =>{
         if(err){
             res.send("adding shop failed")
@@ -231,7 +231,7 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
  })
 
 
- app.post("/addProductShop", async (req, res) => {
+ app.post("/addProductShop/:shop", async (req, res) => {
     try {
       let upload = multer({ storage: storage }).single("itemImage");
 
@@ -252,11 +252,13 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
         const itemCount = req.body.itemCount;
         const itemImage = req.file.filename;
         const itemCategory = req.body.itemCategory;
-  
+        const userid=req.body.id;
+        const shopname=req.params.shop;
+        console.log(shopname);
         console.log(itemImage);
         console.log(itemName);
         dbConnection.query(
-          "INSERT INTO products (productname, category, price, description, count, image) VALUES (?, ?, ?, ?, ?, ?)",
+          "INSERT INTO products (productname, category, price, description, count, image, shopname, id) VALUES (?, ?, ?, ?, ?, ?,?, ?)",
           [
           
             itemName,
@@ -265,6 +267,8 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
             itemDescriprion,
             itemCount,
             itemImage,
+            shopname,
+            userid
 
           ],
           (err, result) => {
@@ -281,18 +285,19 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
       console.log(err);
     }
   });
-  app.post("/getAllProducts", (req, res) => {
+  app.post("/getAllProducts/:user_id", (req, res) => {
     
     const limit = req.body.limit ? parseInt(req.body.limit) : 100;
     const skip = parseInt(req.body.skip);
-  
+    const userid=req.params.user_id;
+    console.log(userid);
     console.log(req.body.skip + "skip");
     console.log(req.body.limit + "limit");
     dbConnection.query(
-      "SELECT * FROM products LIMIT  ?, ?",
-      [skip, limit],
+      "SELECT * FROM products WHERE id=? LIMIT ?,?",
+      [userid,skip,limit],
       (err, result) => {
-        console.log(result.length + "result in db");
+        
         if (err) {
           console.log("err");
           res.send(err + "err");
@@ -321,6 +326,7 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
   })
   app.post('/editProduct/:product_id',async(req,res)=>{
       console.log("in post");
+      console.log(req.body);
           const user_id=req.params.product_id
           const itemName = req.body.itemName;
           const itemDescriprion = req.body.itemDescription;
@@ -434,7 +440,8 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
                   console.log(err);
                   res.send({ success: "false" });
                 } else {
-                  res.send({ success: "true" });
+                  
+                  res.send({ success: "true" ,shopimage:itemImage});
                 }
               }
             );
@@ -475,6 +482,235 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
       }
     );
   });  
+  app.post("/profile",async (req,res)=>{
+          
+    try {
+      let upload = multer({ storage: storage }).single("userImage");
+
+      upload(req, res, function (err) {
+          console.log("image name"+req.file);
+        if (!req.file) {
+          return res.send("Please select an image to upload");
+        } else if (err instanceof multer.MulterError) {
+          return res.send(err);
+        } else if (err) {
+          return res.send(err);
+        }
+  
+        
+        const userName = req.body.userName;
+        const about = req.body.about;
+        const gender = req.body.gender;
+        const dob = req.body.dob;
+        const userImage = req.file.filename;
+        const country = req.body.country;
+        const userid=req.body.id;
+    
+        dbConnection.query(
+          "UPDATE login set name=?,about=?,gender=?,dob=?,profileimage=?,country=? WHERE id=?",
+          [
+          
+            userName,
+            about,
+            gender,
+            
+            dob,
+            userImage,
+            country,
+            userid
+
+          ],
+          (err, result) => {
+            if (err) {
+              console.log(err);
+              res.send({ message: "error" });
+            } else {
+              res.send({ message: "success" });
+            }
+          }
+        );
+      });
+    } catch (err) {
+      console.log(err);
+    }
+        }); 
+        app.get('/getProducts/:productid',async(req,res)=>{
+          let product_id=req.params.productid;
+          console.log("Product_is"+product_id);
+         
+          dbConnection.query("SELECT * FROM products where productid=?",[product_id],
+          (err,result) =>{
+              console.log(result);
+              if(err){
+     
+                  res.status(400).json({success:false, err})
+              }else{
+     
+                  res.status(200).json({ success:true, result })
+              }
+          })
+      }
+      )
+      app.post("/addFav/:productid/:userid", (req, res) => {
+        const userId = req.params.userid;
+        console.log(userId);
+        const itemId = req.params.productid;
+        console.log(itemId);
+        dbConnection.query(
+          "INSERT INTO favorites (productid, userid) VALUES (?, ?)",
+          [itemId, userId],
+          (err, result) => {
+            console.log(result);
+            if (err) {
+              console.log(err);
+              res.send(err);
+            } else {
+              res.send({ success: true, result });
+            }
+          }
+        );
+      });
+      app.get("/getFav/:userid", (req, res) => {
+        const userId = req.params.userid;
+        console.log(userId);
+        console.log("Getting all favoutrites in home");
+        dbConnection.query(
+          "SELECT * FROM products WHERE productid IN (SELECT productid FROM favorites WHERE userid=?)",
+          [userId],
+          (err, result) => {
+            console.log(result);
+            if (err) {
+              console.log(err);
+              res.send(err);
+            } else {
+              res.send({ success: true, result });
+            }
+          }
+        );
+      });
+      app.post("/addProductToCart/:userid", (req, res) => {
+        const userId = req.params.userid;
+        const itemId = req.body.itemId;
+        const qty = req.body.qty;
+        dbConnection.query(
+          "INSERT INTO cart (cuserid, cproductid, quantity) VALUES (?, ?, ?)",
+          [userId,itemId, qty],
+          (err, result) => {
+            console.log(result);
+            if (err) {
+              console.log(err);
+              res.send(err);
+            } else {
+              res.send({ success: true, result });
+            }
+          }
+        );
+      });
+
+      app.post("/delcart",(req,res)=>{
+        const userId = req.params.userid;
+        const itemId = req.body.itemId;
+        const qty = req.body.qty;
+
+        dbConnection.query(
+          "DELETE FROM cart WHERE userid=? AND productid=?",
+          [userId,itemId],
+          (err, result) => {
+            console.log(result);
+            if (err) {
+              console.log(err);
+              res.send(err);
+            } else {
+              res.send({ success: true, result });
+            }
+          }
+        );
+      })
+      app.get("/getFinalCartProducts/:userid", (req, res) => {
+        const userId = req.params.userid;
+        console.log("Getting all products in home");
+        dbConnection.query(
+          "SELECT * FROM products WHERE productid IN (SELECT cproductid FROM cart WHERE cuserid=?)",
+      
+          [userId],
+          (err, result) => {
+            console.log(result);
+            if (err) {
+              console.log(err);
+              res.send(err);
+            } else {
+              res.send({ success: true, result });
+            }
+          }
+        );
+      });
+      app.put("/updateCartQuantity/:userId", (req, res) => {
+        const userId = req.params.userId;
+        // const userId = req.params.id;
+        const itemId = req.body.itemId;
+        const qty = req.body.qty;
+      
+        console.log("In update cart");
+        console.log(itemId);
+        console.log(qty);
+        console.log(userId);
+      
+        db.query(
+          "UPDATE cart SET quantity = ? WHERE cuserid=? AND cproductid = ?",
+          [qty, userId, itemId],
+          (err, result) => {
+            console.log(result);
+            if (err) {
+              console.log(err);
+              res.send(err);
+            } else {
+              res.send({ success: true, result });
+            }
+          }
+        );
+      });
+      app.get("/getQty/:userid/:productid", (req, res) => {
+        const userId = req.params.userid;
+        const productId=req.params.productid
+        console.log("user"+userId);
+        console.log("product "+productId)
+        console.log("Getting all products in home");
+        dbConnection.query(
+          "SELECT quantity FROM cart WHERE cuserid=? AND cproductid=?",
+      
+          [userId,productId],
+          (err, result) => {
+            console.log(result);
+            if (err) {
+              console.log(err);
+              res.send(err);
+            } else {
+              res.send({ success: true, result });
+            }
+          }
+        );
+      });
+      app.post("/editCount/:id",(req,res)=>{
+        const productid=req.params.id;
+        const quantity=req.body.quantity;
+        console.log(productid);
+        console.log(quantity);
+        dbConnection.query(
+          "UPDATE products SET count=count-?,sales=sales+? WHERE productid=?",
+          [quantity,quantity,productid],
+          (err,result)=>{
+            if(err){
+              console.log(err);
+            }else{
+              res.send({success:true});
+            }
+          }
+        )
+      })
+
+
+
+  
 
 //app.use(basePath,landingpage);s
 const PORT = process.env.PORT || 5000;
