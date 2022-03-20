@@ -58,11 +58,11 @@ if(checked==false){
       return (
         <div className="col-md-4 mb-4" style={{marginTop:"20px"}}>
           <div className="card">
-            <img
+            <Link to={`/ItemOverview/${pro.productid}`}><img
               src={require("../uploads/" + pro.image)}
               className="card-img-top"
               alt="..."
-            />
+            /></Link>
             <div className="card-body">
               <h5 className="card-title">{pro.productname}</h5>
               <p>Price: ${pro.price}</p>

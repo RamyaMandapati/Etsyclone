@@ -4,20 +4,31 @@ import { useSelector } from 'react-redux';
 import { selectUser,selectShop } from '../features/userSlice';
 import Axios  from 'axios';
 import Navigationbar from "./Navigationbar"
+import { useNavigate } from 'react-router-dom';
 import { fontSize } from '@mui/system';
+import {login,delProfile} from "../features/userSlice"
+import { useDispatch } from 'react-redux';
 function Profile() {
     const user=useSelector(selectUser);
-    const [userImage,setUserImage]=useState(user.image);
+     const [userid,setId]=useState(user.id)
+     const [emailid,setEmail]=useState(user.email)
+     const [shop,setShop]=useState(user.shopName)
+     const [image,setImage]=useState(user.profilepicture)
+    const [userImage,setUserImage]=useState(user.profilepicture);
+    const [shopImage,setShopimage]=useState(user.shopImage)
     const [userName,setUserName]=useState(user.name);
-   
+   const navigate=useNavigate();
     const [gender,setGender]=useState(user.gender);
     const [country,setCountry]=useState(user.country);
     const [dob,setDob]=useState(user.dob);
     const [about,setAbout]=useState(user.about);
-    
+    const [phonenumber,setPhone]=useState(user.phone);
+    const [address,setAddress]=useState(user.address) 
+    const dispatch=useDispatch();   
     const handleUserData=async()=>
     {
         //e.preventDefault();
+        
         var formData = new FormData();
         
         formData.append("userImage", userImage);
@@ -29,8 +40,11 @@ function Profile() {
         formData.append("dob", dob);
         formData.append("about", about);
         formData.append("id",user.id);
+        formData.append("address",user.address)
+        formData.append("phonenumber",phonenumber)
         console.log("gender"+formData.get("country"));
         console.log("name"+formData.get("userName"));
+
         Axios.post("http://localhost:5000/profile", formData, {
           headers: { "content-Type": "multipart/form-data" },
         }).then((res)=>{
@@ -38,6 +52,7 @@ function Profile() {
           }).catch((err)=>{
               console.log(err);
           })
+          navigate("/Home");
 
     }
   return (
@@ -55,13 +70,17 @@ function Profile() {
         type="file"
         name="userImage"
         id="profile-picture"
+        
         style={{fontSize:"10px", alignSelf:"center",textcolor:" hsl(18, 85%, 55%)"}}
         onChange={(event) => {
           setUserImage(event.target.files[0]);
         }}
       />
       <div className="profile-pic">
-        <img src={profilepicture} height={158} width={158} style={{borderRadius:"45px"}}/>
+        
+        <img 
+        src={profilepicture} 
+        height={158} width={158} style={{borderRadius:"45px"}}/>
       </div>
 
     <div className="section">
@@ -76,6 +95,30 @@ function Profile() {
         id="name"
       />
     </div>
+    <div className="section">
+      <label className='name'>Your phone :</label>
+      <input
+        style={{margin:"10px",}}
+        defaultValue={user.phone}
+        onChange={(event) => {
+          setPhone(event.target.value);
+        }}
+        type="text"
+        id="phone"
+      />
+    </div>
+    <div className="section">
+                <div className="label">Birthday</div>
+                <input
+                  defaultValue={user.dob}
+                  type="date"
+                  style={{ marginLeft: "-2%" }}
+                  onChange={(event) => {
+                    setDob(event.target.value);
+                  }}
+                />
+              </div>
+
 
     <div className="section">
       
@@ -138,6 +181,7 @@ function Profile() {
         </div>
       </div>
     </div>
+
 
     <div className="section">
       <label style={{margin:"10px",marginRight:"50px"}}>City  :</label>
@@ -466,18 +510,33 @@ function Profile() {
         <option value="Zimbabwe">Zimbabwe</option>
       </select>
     </div>
+   
+
+    <div>
 
     <div className="section">
-      <div className="label" style={{marginRight:"50px",margin:"10px"}}>Birthday  :</div>
-      <input
-        //defaultValue={user.dob.toISOString().split("T")[0]}
-        type="date"
-        style={{ margin: "15px" }}
-        onChange={(event) => {
-          setDob(event.target.value);
+      <div>Address :</div>
+        
+        
+      </div>
+      <textarea
+        defaultValue={user.address}
+        style={{
+          marginLeft: "-3%",
+          borderRadius: "4px",
+          padding: "10px",
+          border: "1px solid #dcdcdc",
+          height:"100px"
         }}
-      />
-    </div>
+        id="about"
+        cols="30"
+        rows="10"
+        onChange={(event) => {
+          setAddress(event.target.value);
+        }}
+      ></textarea>
+      </div>
+     <div>
 
     <div className="section">
       <div>About (Tell people a little about yourself) :</div>
@@ -500,6 +559,7 @@ function Profile() {
           setAbout(event.target.value);
         }}
       ></textarea>
+      </div>
     
      <div>
     <button className="profile-click" onClick={handleUserData} style={{margin:"10px",borderRadius:"10px"}}>

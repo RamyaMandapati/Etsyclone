@@ -142,6 +142,13 @@ function Carts() {
         console.log(err);
       })
     })
+    products.map((product)=>{
+      Axios.post(`http://localhost:5000/updateOrders/${userid}`,{subtotal:getCartSubTotal()})
+      .then((response)=>{
+        console.log(response);
+
+      })
+    });
     navigate("/Orders")
   }
   const getCartSubTotal=()=>{

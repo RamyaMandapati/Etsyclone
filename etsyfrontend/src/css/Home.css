@@ -1,6 +1,6 @@
 .card{
-    height: 300px;
-    width : 200px;
+    height: fit-content;
+    width : 300px;
     display: flex;
     border:0.5cm;
     border-color: black;

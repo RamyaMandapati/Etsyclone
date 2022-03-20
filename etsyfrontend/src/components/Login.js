@@ -41,6 +41,8 @@ function Login() {
                        about:response.data.result[0].about,
                         shopImage:response.data.result[0].shopImage,
                         profilepicture:response.data.result[0].profileimage,
+                        phone:response.data.result[0].phone,
+                        address:response.data.result[0].address,
                       loggedIn: true,
                     })
                   );

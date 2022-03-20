@@ -10,6 +10,7 @@ import "../App.css";
 import { useDispatch } from "react-redux";
 import { createCartItem } from "../features/cartItemsSlice";
 import { getCartItems } from "../features/cartItemsSlice";
+
 // import {
 //   addProductToCart,
 //   addQtyToCart,
@@ -20,6 +21,7 @@ import { getCartItems } from "../features/cartItemsSlice";
 
 
 import Axios from 'axios';
+import ShopHomecustomer from "./ShopHomecustomer";
 
 function ItemOverview(props) {
     const user=useSelector(selectUser);
@@ -83,34 +85,12 @@ function ItemOverview(props) {
         })
       );
       }
+      const shopCustomerHandler=()=>{
+        console.log("shopcustomerhandler");
+        navigate(`/ShopHomecustomer/${Products.id}`)
+      }
+      
   
-      // if (cartItems) {
-      //   console.log(cartItems.qty);
-      //   console.log(qty);
-      // } else {
-      //   console.log("No cart items");
-      // }
-      // console.log(productView.length);
-      // if (user !== null) {
-      //   Axios.post("http://localhost:4000/addProductToCart/" + user.id, {
-      // itemId: cartProduct.itemId,
-      // itemName: cartProduct.itemName,
-      // itemDescription: cartProduct.itemDescription,
-      // itemImage: cartProduct.itemImage,
-      // itemPrice: cartProduct.itemPrice,
-      // itemId: cartProduct.itemId,
-      // qty: qty,
-      //   }).then((response) => {
-      //     if (response.data.success === true) {
-      //       console.log("-------------responce data ------", response.data);
-      //     }
-      //   });
-      //   console.log("Add to cart clicked");
-      // }
-  
-    
-            
-     
   return (
     <div>
         <Navigationbar/>
@@ -136,7 +116,7 @@ function ItemOverview(props) {
                 </span>
                 
                   <div style={{marginLeft:"50px",height:"400px",width:"400px",border:"1px"}}>
-                    <Link to="/ShopHomecustomer"><label style={{color:"rgb(235 78 11)", marginLeft:"50px"}}>{Products.shopname}</label></Link>
+                  <label style={{color:"rgb(235 78 11)", marginLeft:"50px"}} onClick={shopCustomerHandler}>{Products.shopname}</label>
                     <br></br>
                     <span style={{marginLeft:"50px"}}>sales</span>
                     <h2 style={{marginLeft:"50px",width:"200px",marginTop:"50px"}}>{Products.description}</h2>
@@ -144,7 +124,7 @@ function ItemOverview(props) {
                     <p style={{marginLeft:"50px"}}>quantity</p>
                     <select style={{marginLeft:"50px"}} onChange={(e)=>setQuantity(e.target.value)}>
                     { /*Array.from(Array(Products.count)).map((e,value) => <option key={value} value={value}>{value+1}</option>) */}
-                    {Array.apply(null, {length: Products.count}).map((e,value) => <option key={value} value={value}>{value}</option>)}
+                    {Array.apply(1, {length: Products.count}).map((e,value) => <option key={value+1} value={value+1}>{value+1}</option>)}
                     </select><br></br>  
                     <button style={{width:"200px",borderRadius:"10px",marginLeft:"50px",marginTop:"10px",color:"white",backgroundColor:"black"}} onClick={addToCartHandler}>Add to cart</button>
                   </div>

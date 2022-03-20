@@ -17,6 +17,9 @@ export const userSlice = createSlice({
       state.shopName=null;
      
     },
+    delProfile:(state)=>{
+      state.user=null;
+    },
 
     updateUser: (state, action) => {
       state.user.shopName = action.payload.shopName;
@@ -33,7 +36,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { login, logout, activeShop, updateUser, updateshopImage,favorites } = userSlice.actions;
+export const { login, logout, activeShop, updateUser, updateshopImage,favorites,delProfile } = userSlice.actions;
 
 export const selectUser = (state) => state.user.user;
 export const selectShop = (state) => state.user.shop;

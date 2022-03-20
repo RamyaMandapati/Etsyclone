@@ -216,6 +216,7 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
         }
     })
  })
+ 
  app.post('/addShop/:id',(req,res) =>{
     let shop_name=req.body.shopname
     let userid=req.params.id
@@ -310,6 +311,7 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
       }
     );
   });
+  
 
   app.get('/editProduct/:product_id',async (req,res)=>{
       const user_id=req.params.product_id
@@ -326,7 +328,7 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
   })
   app.post('/editProduct/:product_id',async(req,res)=>{
       console.log("in post");
-      console.log(req.body);
+      
           const user_id=req.params.product_id
           const itemName = req.body.itemName;
           const itemDescriprion = req.body.itemDescription;
@@ -525,7 +527,7 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
               console.log(err);
               res.send({ message: "error" });
             } else {
-              res.send({ message: "success" });
+              res.send({ message: "success", result});
             }
           }
         );
@@ -708,7 +710,59 @@ app.get('/protected', passport.authenticate('jwt', {session:false}),(req,res)=>
         )
       })
 
+  app.get("/getOwner/:userid",(req,res)=>{
+    const id=req.params.userid;
+    dbConnection.query(
+      "SELECT * FROM login WHERE id=?",
+      [id],
+      (err,result)=>{
+      if(err){
+        res.send(err);
+      }else{
+        res.send({success:true,result});
+      }
+    }
+    )
 
+  })
+  app.post("/getAllProductstoCustomer/:user_id", (req, res) => {
+    
+   
+    const userid=req.params.user_id;
+    console.log(userid);
+  
+    dbConnection.query(
+      "SELECT * FROM products WHERE id=?",
+      [userid],
+      (err, result) => {
+        
+        if (err) {
+          console.log("err");
+          res.send(err + "err");
+        } else {
+          console.log(result + "result");
+          res.json({ success: true, result});
+        }
+      }
+    );
+  });
+  app.post("/updateOrders/:userid",(req,res)=>{
+    const uid=req.params.userid;
+    const ordervalue=req.body.subtotal;
+    console.log(ordervalue);
+    dbConnection.query(
+      "INSERT INTO orders (id,ordervalue) VALUES (?,?)",
+      [uid,ordervalue],
+      (err,res)=>{
+        if(err){
+          console.log(err);
+        }else{
+          res.json({success:true,res});
+        }
+
+      }
+    )
+  })
 
   
 

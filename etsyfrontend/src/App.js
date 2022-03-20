@@ -24,6 +24,7 @@ import Profile from "./components/Profile";
 import Favorites from "./components/Favorites";
 import Carts from "./components/Carts";
 import Orders from "./components/Orders";
+import ShopHomecustomer from "./components/ShopHomecustomer";
 
 function App() {
   
@@ -41,7 +42,9 @@ function App() {
              <Route path="/" element={<Login/>}/>
              <Route path="/Login" element={<Login/>}/>
              <Route path="/Home" element={<Home/>}/>
-             <Route path="/ItemOverview/:id" element={<ItemOverview/>}/>
+             <Route path="/ItemOverview/:id" element={<ItemOverview/>}>
+                  
+               </Route>
              <Route path="/ShopHome" element={<ShopHome/>}/>
              <Route path="/Register" element={<Register/>}/>
              <Route path="/SellOnEtsy" element={<SellOnEtsy/>}/>
@@ -54,6 +57,7 @@ function App() {
              <Route path="/Favorites" element={<Favorites/>}/>
              <Route path="/Carts" element={<Carts/>}/>
              <Route path="/Orders" element={<Orders/>}/>
+             <Route path="/ShopHomecustomer/:id" element={<ShopHomecustomer/>}/>
            </Routes>  
         </div>
     </Router>

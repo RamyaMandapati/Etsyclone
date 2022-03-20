@@ -10,8 +10,12 @@ function Popup({ setShowProductsAddPage }) {
   const [itemDescription, setItemDescription] = useState("");
   const [itemCategory, setItemCategory] = useState("");
   const [itemCount, setItemCount] = useState(0);
+  const [itemNewCategory, setItemNewCategory] = useState("");
+  const [newCategoryVisible, setNewCategoryVisible] = useState(false);
+
   const shop= useSelector(selectShop);
   const user=useSelector(selectUser);
+
   console.log(shop);
   const addItem = async () => {
    
@@ -21,7 +25,11 @@ function Popup({ setShowProductsAddPage }) {
     formData.append("itemDescription", itemDescription);
     formData.append("itemPrice", itemPrice);
     formData.append("itemCount", itemCount);
-    formData.append("itemCategory", itemCategory);
+    if (itemCategory === "others") {
+      formData.append("itemCategory", itemNewCategory);
+    } else {
+      formData.append("itemCategory", itemCategory);}
+    
     formData.append("id",user.id);
     // const itemDetails = {
     //   itemName: itemName,
@@ -31,7 +39,7 @@ function Popup({ setShowProductsAddPage }) {
     // };
 
     console.log("Item image"+itemImage);
-    Axios.post(`http://localhost:5000/addProductShop/${shop}` , formData, {
+    Axios.post(`http://localhost:5000/addProductShop/${user.shopName}` , formData, {
       headers: { "content-Type": "multipart/form-data" },
     }).then((response) => {
       console.warn(response);
@@ -89,12 +97,24 @@ function Popup({ setShowProductsAddPage }) {
               <option value="homeDecor">Home Decor</option>
               <option value="others">Others</option>
             </select>
-
           </div>
+          {itemCategory === "others" && (
+            <div className="htmlForm-group">
+              <label htmlFor="item_category">Item Category</label>
+              <br />
+              <input
+                type="text"
+                className="item_category"
+                id="item_category"
+                placeholder="Item Category"
+                onChange={(event) => {
+                  setItemNewCategory(event.target.value);
+                }}
+                required
+              />
+            </div>
+          )}
           
-          <div>
-            <input onChange={(event)=>{setItemCategory(event.target.value)}}>Add a new category</input>
-          </div>
 
           <div className="htmlForm-group">
             <label htmlFor="item_image">Item Image</label>

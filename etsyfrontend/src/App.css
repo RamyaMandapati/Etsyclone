@@ -146,7 +146,7 @@
 
 .modal-content {
   max-width: 400px;
-  height: 550px;
+  height: fit-content;
   background-color: white;
   border-radius: 20px !important;
   position: relative;

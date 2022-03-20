@@ -3,10 +3,13 @@ import Axios from 'axios';
 import "../index.css"
 import axios from 'axios';
 import {Link, useParams} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+
 function EditProduct(props) {
+
   const [products, setProducts] = useState(""); 
   const [itemName, setItemName] = useState("");
- 
+ const navigate=useNavigate();
   const [itemPrice, setItemPrice] = useState("");
   const [itemDescription, setItemDescription] = useState("");
   const [itemCategory, setItemCategory] = useState("");
@@ -22,6 +25,11 @@ function EditProduct(props) {
        if(response.data.success){
          console.log(response.data.result[0])
         setProducts(response.data.result[0])
+        setItemName(response.data.result[0].productname)
+        setItemPrice(response.data.result[0].price)
+        setItemCount(response.data.result[0].count)
+        setItemCategory(response.data.result[0].category)
+        setItemDescription(response.data.result[0].description)
         
        }
 
@@ -30,17 +38,18 @@ function EditProduct(props) {
 
   const editItem = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
+    // const formData = new FormData();
     
-    formData.append("itemName", itemName);
-    formData.append("itemDescription", itemDescription);
-    formData.append("itemPrice", itemPrice);
-    formData.append("itemCount", itemCount);
-    formData.append("itemCategory", itemCategory);
+    // formData.append("itemName", itemName);
+    // formData.append("itemDescription", itemDescription);
+    // formData.append("itemPrice", itemPrice);
+    // formData.append("itemCount", itemCount);
+    // formData.append("itemCategory", itemCategory);
+    console.log(itemPrice);
     
     
-    Axios.post(`http://localhost:5000/editProduct/${product_id}`,formData ,{
-      headers: { "content-Type": "multipart/form-data" },
+    Axios.post(`http://localhost:5000/editProduct/${product_id}`,{"itemName": itemName,"itemDescription":itemDescription,"itemPrice": itemPrice,
+    "itemCount": itemCount,"itemCategory":itemCategory
     }).then((response) => {
       console.warn(response);
       if (response.data.message === "success") {
@@ -48,6 +57,7 @@ function EditProduct(props) {
       }
     });
 
+  //navigate("/ShopHome");
 
   };
   
@@ -69,7 +79,7 @@ function EditProduct(props) {
               type="text"
               className="item_name"
               id="item_name"
-              value={products.productname}
+              defaultValue={itemName}
               onChange={(event) => {
                 setItemName(event.target.value);
               }}
@@ -81,6 +91,7 @@ function EditProduct(props) {
             <label htmlFor="category">Category</label>
             <br />
             <select
+              defaultValue={itemCategory}
               onChange={(event) => {
                 setItemCategory(event.target.value);
               }}
@@ -109,7 +120,7 @@ function EditProduct(props) {
               type="number"
               className="item_price"
               id="item_price"
-              value={products.price}
+              defaultValue={itemPrice}
               min="1"
               onChange={(event) => {
                 setItemPrice(event.target.value);
@@ -125,7 +136,7 @@ function EditProduct(props) {
               type="text"
               className="item_des"
               id="item_des"
-              value={products.description}
+              defaultValue={itemDescription}
               onChange={(event) => {
                 setItemDescription(event.target.value);
               }}
@@ -140,7 +151,7 @@ function EditProduct(props) {
               type="number"
               className="item_count"
               id="item_count"
-              value={products.count}
+              defaultValue={itemCount}
               min="1"
               onChange={(event) => {
                 setItemCount(event.target.value);

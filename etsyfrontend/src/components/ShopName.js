@@ -15,6 +15,7 @@ function ShopName() {
     const user=useSelector(selectUser);
     const [shopname,setshopname] =useState("");
     const [shopNameStatus,setShopNameStatus]=useState("")
+    const [message,setMessage]=useState("")
     
     const handleShopName = ()=>{
         console.log(shopname)
@@ -47,6 +48,9 @@ function ShopName() {
             
             
         }
+        else{
+            setMessage("Try another shop name")
+        }
     }
   return (
     <div>
@@ -71,6 +75,7 @@ function ShopName() {
                 <button type="submit" className="redirect" 
                 style={{color:"rgb(238, 101, 43)", borderRadius:"10px",marginTop:"20px", width:"150px"}}
                 onClick={redirectHandler}>Confirm</button>
+                <p>{message}</p>
             </div>
         </div>
     </div>
