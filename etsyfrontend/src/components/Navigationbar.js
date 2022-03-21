@@ -39,7 +39,7 @@ function Navigationbar() {
     // setSearchTerms(e.currentTarget.value)
     console.log(SearchTerms)
     if (SearchTerms !== "") {
-      Axios.get("http://localhost:5000/getSearchItems/" + SearchTerms).then(
+      Axios.get("http://3.19.143.233:5000/getSearchItems/" + SearchTerms).then(
         (response) => {
           if (response.data.success === true) {
             console.log(response.data.result);

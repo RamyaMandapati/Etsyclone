@@ -30,7 +30,7 @@ function Home(){
       getProducts(variables)
     },[])
     const getProducts=(variables) =>{
-      Axios.post('http://localhost:5000/getProducts',variables)
+      Axios.post('http://3.19.143.233:5000/getProducts',variables)
       .then((response) =>{
         if(response.data.success){
           if (variables.loadMore) {
@@ -48,7 +48,7 @@ function Home(){
 
     const handlefavclick=(productid,userid)=>{
       console.log(user.id)
-      Axios.post(`http://localhost:5000/addFav/${productid}/${userid}`)
+      Axios.post(`http://3.19.143.233:5000/addFav/${productid}/${userid}`)
       .then((response)=>{
         if(response.data.success){
         console.log(response.data.success)

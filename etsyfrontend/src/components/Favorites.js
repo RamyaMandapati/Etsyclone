@@ -16,7 +16,7 @@ function Favorites() {
     const [products, setProducts] = useState([]);
     useEffect(() => {
     
-    Axios.get(`http://localhost:5000/getFav/${userid}` ).
+    Axios.get(`http://3.19.143.233:5000/getFav/${userid}` ).
         then((response) => {
         console.log(response);
         if (response.data.success) {

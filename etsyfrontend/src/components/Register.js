@@ -15,7 +15,7 @@ function Register() {
     const register=(e) =>{
         e.preventDefault();
 
-        Axios.post('http://localhost:5000/register',{
+        Axios.post('http://3.19.143.233:5000/register',{
             username:usernameReg,password:passwordReg,emailid:emailidReg
         }).then((response)=>{
             console.log(response);

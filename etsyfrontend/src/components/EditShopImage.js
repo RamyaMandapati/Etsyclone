@@ -24,7 +24,7 @@ function EditShopImage() {
     const formData = new FormData();
     formData.append("itemImage", shopProfileImage);
    console.log("image shop"+shopProfileImage);
-    Axios.post(`http://localhost:5000/updateshopImage/${user_id}`,formData,{
+    Axios.post(`http://3.19.143.233:5000/updateshopImage/${user_id}`,formData,{
         headers: { "content-Type": "multipart/form-data" },
       })
     .then(response=>{

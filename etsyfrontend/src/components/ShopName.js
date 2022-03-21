@@ -19,7 +19,7 @@ function ShopName() {
     
     const handleShopName = ()=>{
         console.log(shopname)
-        Axios.post('http://localhost:5000/getShopName',{shopname})
+        Axios.post('http://3.19.143.233:5000/getShopName',{shopname})
         .then((response) =>
         {
             console.log(response.data.message);
@@ -34,7 +34,7 @@ function ShopName() {
         if(shopNameStatus=="Available"){
             
             
-            Axios.post(`http://localhost:5000/addShop/${user.id}`,{shopname})
+            Axios.post(`http://3.19.143.233:5000/addShop/${user.id}`,{shopname})
             .then((response)=>{
                 console.log(response);
                 dispatch(updateUser({ShopName:shopname}));

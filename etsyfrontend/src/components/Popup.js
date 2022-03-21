@@ -39,7 +39,7 @@ function Popup({ setShowProductsAddPage }) {
     // };
 
     console.log("Item image"+itemImage);
-    Axios.post(`http://localhost:5000/addProductShop/${user.shopName}` , formData, {
+    Axios.post(`http://3.19.143.233:5000/addProductShop/${user.shopName}` , formData, {
       headers: { "content-Type": "multipart/form-data" },
     }).then((response) => {
       console.warn(response);

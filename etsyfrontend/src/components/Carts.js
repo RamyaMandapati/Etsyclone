@@ -30,7 +30,7 @@ function Carts() {
     
   }, []);
   const getCartProducts=()=>{
-    Axios.get(`http://localhost:5000/getFinalCartProducts/${userid}` ).
+    Axios.get(`http://3.19.143.233:5000/getFinalCartProducts/${userid}` ).
     then((response) => {
     console.log(response);
     if (response.data.success) {
@@ -47,7 +47,7 @@ function Carts() {
   }
   const getQtyFromCart = (productid) => {
     
-    Axios.get(`http://localhost:5000/getQty/${userid}/${productid}`).then(
+    Axios.get(`http://3.19.143.233:3000/getQty/${userid}/${productid}`).then(
       (response) => {
         
         if (response.data.success) {
@@ -77,7 +77,7 @@ function Carts() {
       })
      
     );
-    Axios.put("http://localhost:5000/updateCartQuantity/" + user.id, {
+    Axios.put("http://3.19.143.233:3000/updateCartQuantity/" + user.id, {
       itemId: productcart.itemId,
       qty: quantityupdate,
     }).then((response) => {
@@ -135,7 +135,7 @@ function Carts() {
   });
   const OrderHandler=()=>{
     products.map((product) =>{
-      Axios.post(`http://localhost:5000/editCount/${product.itemId}`,{quantity:product.qty})
+      Axios.post(`http://3.19.143.233:5000/editCount/${product.itemId}`,{quantity:product.qty})
       .then((response)=>{
         console.log(response);
       }).catch((err)=>{
@@ -143,7 +143,7 @@ function Carts() {
       })
     })
     products.map((product)=>{
-      Axios.post(`http://localhost:5000/updateOrders/${userid}`,{subtotal:getCartSubTotal()})
+      Axios.post(`http://3.19.143.233:5000/updateOrders/${userid}`,{subtotal:getCartSubTotal()})
       .then((response)=>{
         console.log(response);
 

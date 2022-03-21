@@ -45,16 +45,19 @@ var upload = multer({
 })
 
 app.use(cors({origin:constants.frontend, 
-    methods:['GET','POST'],
+    methods:['GET','POST','PUT'],
     credentials:true}));
     app.use(cookieParser());
     app.use(bodyParser.urlencoded({extended:true}));
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header("Access-Control-Allow-Headers", "x-access-token, Origin, X-Requested-With, Content-Type, Accept");
+    next();
     res.setHeader('Access-Control-Allow-Headers', 
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
     );
-    res.setHeader('Access-Control-Allow-Origin', 'http://3.19.143.233:3000');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');

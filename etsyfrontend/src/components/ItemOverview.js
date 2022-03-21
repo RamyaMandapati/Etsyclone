@@ -36,7 +36,7 @@ function ItemOverview(props) {
     const [quantity,setQuantity]=useState(1);
     
     useLayoutEffect(()=>{
-        Axios.get(`http://localhost:5000/getProducts/${productid}`)
+        Axios.get(`http://3.19.143.233:5000/getProducts/${productid}`)
       .then((response) =>{
         console.log(response);
         if(response.data.success){
@@ -52,7 +52,7 @@ function ItemOverview(props) {
     })
     },[])
     const handlefavclick=()=>{
-        Axios.post(`http://localhost:5000/addFav/${productid}/${userid}`)
+        Axios.post(`http://3.19.143.233:5000/addFav/${productid}/${userid}`)
         .then((response)=>{
           if(response.data.success){
           console.log(response.data.success)

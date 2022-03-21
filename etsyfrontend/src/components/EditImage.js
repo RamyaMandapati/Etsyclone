@@ -19,7 +19,7 @@ function EditImage() {
         const formData = new FormData();
         formData.append("itemImage", itemImage);
         console.log("image"+itemImage);
-        Axios.post(`http://localhost:5000/updateImage/${product_id}`,formData,{
+        Axios.post(`http://3.19.143.233:5000/updateImage/${product_id}`,formData,{
             headers: { "content-Type": "multipart/form-data" },
           })
         .then(response=>{

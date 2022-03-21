@@ -20,7 +20,7 @@ function EditProduct(props) {
   useEffect(() => {
      
      console.log("Product id"+product_id);
-     Axios.get(`http://localhost:5000/editProduct/${product_id}`)
+     Axios.get(`http://3.19.143.233:5000/editProduct/${product_id}`)
      .then(response =>{
        if(response.data.success){
          console.log(response.data.result[0])
@@ -48,7 +48,7 @@ function EditProduct(props) {
     console.log(itemPrice);
     
     
-    Axios.post(`http://localhost:5000/editProduct/${product_id}`,{"itemName": itemName,"itemDescription":itemDescription,"itemPrice": itemPrice,
+    Axios.post(`http://3.19.143.233:5000/editProduct/${product_id}`,{"itemName": itemName,"itemDescription":itemDescription,"itemPrice": itemPrice,
     "itemCount": itemCount,"itemCategory":itemCategory
     }).then((response) => {
       console.warn(response);

@@ -18,7 +18,7 @@ function Login() {
     const dispatch=useDispatch();
     Axios.defaults.withCredentials=true;
     const login_api=()=>{
-        Axios.post('http://localhost:5000/login',{
+        Axios.post('http://3.19.143.233:5000/login',{
             emailid:emailid,
             password: password
         }).then((response)=>{

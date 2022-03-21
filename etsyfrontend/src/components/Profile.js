@@ -45,7 +45,7 @@ function Profile() {
         console.log("gender"+formData.get("country"));
         console.log("name"+formData.get("userName"));
 
-        Axios.post("http://localhost:5000/profile", formData, {
+        Axios.post("http://3.19.143.233:5000/profile", formData, {
           headers: { "content-Type": "multipart/form-data" },
         }).then((res)=>{
               console.log(res);
