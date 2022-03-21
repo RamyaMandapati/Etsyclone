@@ -2,7 +2,7 @@
   "name": "etsyfrontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000/",
+  "proxy": "http://54.219.66.85:5000/",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@emotion/react": "^11.8.1",

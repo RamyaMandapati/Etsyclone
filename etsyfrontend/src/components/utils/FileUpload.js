@@ -17,7 +17,7 @@ function FileUpload(props) {
         console.log(files);
         console.log(formData);
         //save the Image we chose inside the Node Server 
-        Axios.post('http://localhost:5000/uploadImage', files, config)
+        Axios.post('http://54.219.66.85:5000/uploadImage', files, config)
             .then(response => {
                 if (response.data.success) {
 
@@ -66,7 +66,7 @@ function FileUpload(props) {
 
                 
                     <div onClick={() => onDelete(Images)}>
-                        <img style={{ minWidth: '300px', width: '300px', height: '240px'}} src={`http://localhost:5000/uploads/${Images}`} />
+                        <img style={{ minWidth: '300px', width: '300px', height: '240px'}} src={`http://54.219.66.85:5000/uploads/${Images}`} />
                     </div>
                 
 

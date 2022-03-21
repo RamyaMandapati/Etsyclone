@@ -25,7 +25,7 @@ function Orders() {
     
   // }, []);
 //   const getQtyFromCart = (productid) => {
-//     Axios.get(`http://localhost:5000/getQty/${userid}/${productid}`).then(
+//     Axios.get(`http://54.219.66.85:5000/getQty/${userid}/${productid}`).then(
 //       (response) => {
         
 //         if (response.data.success) {
@@ -39,7 +39,7 @@ function Orders() {
 //   };
 
     // const getCartProducts=()=>{
-    //     Axios.get(`http://localhost:5000/getFinalCartProducts/${userid}` ).
+    //     Axios.get(`http://54.219.66.85:5000/getFinalCartProducts/${userid}` ).
     //     then((response) => {
     //     console.log(response);
     //     if (response.data.success) {

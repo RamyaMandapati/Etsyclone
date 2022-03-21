@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router'
      let navigate=useNavigate()
      useEffect(()=>{
         const token=localStorage.getItem('token');
-        axios.get("http://localhost:5000/protected",{headers:{
+        axios.get("http://54.219.66.85:5000/protected",{headers:{
             Authorization : token,
         }}).then(res=>{
             console.log(res)

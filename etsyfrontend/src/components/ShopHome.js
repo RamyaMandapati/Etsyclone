@@ -45,7 +45,7 @@ function ShopHome() {
 
   },[]);
   const updateShopImage=()=>{
-  Axios.get(`http://localhost:5000/updateshopImage/${user_id}`)
+  Axios.get(`http://54.219.66.85:5000/updateshopImage/${user_id}`)
     .then((res)=>{
       if(res.data.success){
         console.log(res);
@@ -85,7 +85,7 @@ function ShopHome() {
     console.log("---------------in view Items-------------------");
     console.log(variables.skip + " in get all products");
     Axios.post(
-      `http://localhost:5000/getAllProducts/${user_id}` ,
+      `http://54.219.66.85:5000/getAllProducts/${user_id}` ,
       variables
     ).then((response) => {
       console.log(response);

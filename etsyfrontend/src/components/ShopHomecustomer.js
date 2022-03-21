@@ -36,7 +36,7 @@ function ShopHomecustomer(props) {
         console.log("---------------in view owners-------------------");
 
         Axios.get(
-          `http://localhost:5000/getOwner/${user_id}`
+          `http://54.219.66.85:5000/getOwner/${user_id}`
         ).then((response) => {
           console.log(response);
           if (response.data.success) {
@@ -57,7 +57,7 @@ function ShopHomecustomer(props) {
         console.log("---------------in view Items-------------------");
 
         Axios.post(
-          `http://localhost:5000/getAllProductstoCustomer/${user_id}`
+          `http://54.219.66.85:5000/getAllProductstoCustomer/${user_id}`
         ).then((response) => {
           console.log(response);
           if (response.data.success) {
